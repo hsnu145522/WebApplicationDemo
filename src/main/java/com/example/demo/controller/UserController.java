@@ -2,10 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Users;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -13,19 +13,17 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private final UserRepository userRepository;
+    private UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @PostMapping
-    public Users createUser(@RequestBody Users user) {
-        return userRepository.save(user);
+    public String createUser(@RequestBody Users user) {
+        userService.addUser(user);
+        return "Successfully Created User!";
     }
 
     @GetMapping
     public List<Users> getUsers() {
-        return userRepository.findAll();
+        return userService.getAllUser();
     }
 }
