@@ -21,9 +21,10 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public String createUser(@RequestBody Users user) {
+    public Users createUser(@RequestBody Users user) {
         userService.addUser(user);
-        return "Successfully Created User!";
+        return user;
+        // return "Successfully Created User!";
     }
 
     @GetMapping
@@ -32,11 +33,12 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public String updateUser(@PathVariable String id, @RequestBody Users user) {
+    public Users updateUser(@PathVariable String id, @RequestBody Users user) {
         // TODO: process PUT request
         userService.updateUser(Long.valueOf(id), user);
+        return user;
 
-        return "Successfully Updated User!";
+        // return "Successfully Updated User!";
 
     }
 
