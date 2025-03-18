@@ -5,12 +5,9 @@ import com.example.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 
 @RestController
 @RequestMapping("/users")
@@ -21,9 +18,10 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public String createUser(@RequestBody Users user) {
+    public Users createUser(@RequestBody Users user) {
         userService.addUser(user);
-        return "Successfully Created User!";
+        return user;
+        // return "Successfully Created User!";
     }
 
     @GetMapping
@@ -32,11 +30,12 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public String updateUser(@PathVariable String id, @RequestBody Users user) {
+    public Users updateUser(@PathVariable String id, @RequestBody Users user) {
         // TODO: process PUT request
         userService.updateUser(Long.valueOf(id), user);
+        return user;
 
-        return "Successfully Updated User!";
+        // return "Successfully Updated User!";
 
     }
 
