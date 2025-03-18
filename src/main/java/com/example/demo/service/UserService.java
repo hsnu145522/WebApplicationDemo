@@ -1,8 +1,11 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +26,26 @@ public class UserService {
     }
 
     public List<Users> getAllUser() {
-        return userRepository.findAll();
+        // return userRepository.findAll();
+        SessionFactory sessionFactory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(Users.class)
+                .buildSessionFactory();
+        org.hibernate.Session session = sessionFactory.openSession();
+        List<Users> users = new ArrayList<>();
+        try {
+            session.beginTransaction();
+            users = session.createQuery("from Users").list();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+            sessionFactory.close();
+        }
+
+        return users;
+
     }
 
     public void addUser(Users user) {
