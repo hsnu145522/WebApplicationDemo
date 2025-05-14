@@ -53,11 +53,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -72,6 +72,10 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>6.4.0.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -79,6 +83,20 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-core</artifactId>
+				<version>4.29.2</version>
+				<configuration>
+					<searchPath>${basedir}/src/files/liquibase/</searchPath>
+					<changeLogFile>changesets/master_changelog.xml</changeLogFile>
+					<driver>org.postgresql.Driver</driver>
+					<url>jdbc:postgresql://localhost:5432/demos</url>
+					<username>dchuang</username>
+					<password></password>
+					<promptForNonLocalDatabase>false</promptForNonLocalDatabase>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
